@@ -1,0 +1,98 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <canvas id="canvas" width="700" height="600" style="border:dashed"></canvas>
+    <script>
+        var canvas = document.getElementById("canvas");
+        var ctx = canvas.getContext("2d");
+        var height = canvas.height;
+        var width = canvas.width;
+        var NewX, NewY;
+        var IsPressed = false;
+
+        function Init(ctx) {
+            ///<param name="ctx" type="CanvasRenderingContext2D"/>
+            console.log("Init Func");
+             
+            canvas.width = canvas.width;
+
+            ctx.beginPath();
+
+            ctx.moveTo(0, height / 2);
+            ctx.lineTo(width, height / 2);
+            ctx.moveTo(width / 2, height);
+            ctx.lineTo(width / 2, 0);
+            ctx.lineWidth = 1;
+            ctx.closePath()
+            ctx.stroke();
+            ctx.fill();
+
+        }
+
+        (function Update() {
+
+            
+            requestAnimationFrame(Update);
+            if (IsPressed) {
+                Init(ctx);
+
+                ctx.beginPath();
+                ctx.moveTo(350, 300);
+                ctx.lineTo(NewX, NewY);
+                ctx.lineWidth = 4;
+                ctx.strokeStyle = "#FF0000";
+                ctx.stroke();
+                ctx.closePath();
+                ctx.fill();
+            }
+        })();
+
+        canvas.onmousedown = function () { IsPressed = true; console.log("mouse down"); }
+        canvas.onmouseup = function () { IsPressed = false; console.log("mouse up"); }
+        canvas.onmousemove = function (e) {
+
+            if (IsPressed) {
+
+                console.log("Mouse move");
+                var m = (e.offsetY - 300) / (e.offsetX - 350);
+                console.log("m");
+                console.log(m);
+                console.log("tan(theta)");
+                console.log(Math.tan(Math.tan(Math.atan(m))));
+                console.log("atan(m)");
+                console.log(Math.atan(m));
+                console.log("atan2((e.offsetY - 300) , (e.offsetX - 350))");
+                console.log(Math.atan2((e.offsetY - 300), (e.offsetX - 350)));
+                
+
+                //var c = e.offsetY - e.offsetX * m;
+
+                var r = Math.sqrt(Math.pow((300 - e.offsetY), 2) * Math.pow((350 - e.offsetX), 2));
+
+                if (r > 50) {
+                    r = 50;
+                }
+
+                var xP = (e.offsetX - (width / 2));
+                var yP =-1* (e.offsetY - (height / 2));
+                NewX = (r* Math.cos(Math.atan2((yP), (xP))))+width/2;
+                NewY = -(r* Math.sin(Math.atan2((yP), (xP))))+(height/2);
+            }
+
+            
+
+        }
+    
+    
+    
+    
+    
+    
+    </script>
+
+</body>
+</html>
